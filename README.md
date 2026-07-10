@@ -1,59 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BabySkinCare - E-Commerce Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 12 e-commerce platform with product management, shopping cart, guest checkout, and Razorpay payment integration.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Product Management**: Browse products by categories
+- **Shopping Cart**: Session-based cart with quantity control
+- **Guest Checkout**: No login required for purchasing
+- **Payment Gateway**: Razorpay integration (test mode)
+- **Order Management**: Admin dashboard for order tracking and status updates
+- **Stock Management**: Product inventory tracking with automatic decrement on order
+- **Admin Panel**: Complete admin interface for managing products, categories, orders, and banners
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Prerequisites
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.1+
+- Composer
+- MySQL/MariaDB
+- Node.js & npm (for Vite assets)
 
-## Learning Laravel
+## Setup Instructions
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Install Dependencies
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+cd c:\xampp\htdocs\localfolder
+composer install
+npm install
+```
 
-## Laravel Sponsors
+### 2. Environment Configuration
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Copy the `.env.example` template if needed:
 
-### Premium Partners
+```bash
+cp .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Configure these variables in `.env`:
 
-## Contributing
+```env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+RAZORPAY_KEY=rzp_test_xxxxxxxxxxxxx
+RAZORPAY_SECRET=xxxxxxxxxxxxxxxx
+```
 
-## Code of Conduct
+Generate the app key:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+### 3. Database Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+Run migrations:
+
+```bash
+php artisan migrate
+```
+
+Run seeders to create admin user and sample data:
+
+```bash
+php artisan db:seed
+```
+
+## Admin Access
+
+### Default Admin Credentials
+
+After running migrations and seeders:
+
+- **Email**: `admin@babyskincare.sb`
+- **Password**: `BabySkinCare@2026`
+
+---
+
+## Testing the Payment Flow
+
+### Test Guest Checkout with Razorpay
+
+1. Navigate to `http://localhost:8000/products`
+2. Add products to cart
+3. Go to cart and click "Checkout"
+4. Fill guest information (name, email, address, etc.)
+5. Click "Pay with Razorpay (test)"
+6. Use these test card details:
+   - **Card Number**: `4111 1111 1111 1111`
+   - **Expiry**: `12/25`
+   - **CVV**: `123`
+
+### Admin Order Management
+
+1. Login at `http://localhost:8000/admin/dashboard`
+2. Navigate to "Orders"
+3. View customer details and order items
+4. Update order status (pending → paid, shipped, delivered, cancelled)
+
+### Stock Management
+
+1. Go to Admin → Products
+2. Set stock quantity for a product
+3. When orders are placed, stock decrements automatically
+4. Cart validation prevents overselling
+
+---
+
+## Database Schema
+
+### Core Tables
+
+- **users**: Admin users with `is_admin` flag
+- **categories**: Product categories with URL slugs
+- **products**: Products with stock, pricing, category links
+- **orders**: Guest orders storing customer name, email, address
+- **order_items**: Order line items with quantity and pricing
+- **banners**: Promotional banners with sort order
+
+---
+
+## Troubleshooting
+
+### Database Connection Error
+```bash
+# Verify credentials in .env
+php artisan migrate:fresh
+php artisan migrate
+```
+
+### Razorpay Payment Issues
+- Confirm `RAZORPAY_KEY` and `RAZORPAY_SECRET` in `.env`
+- Use only test mode credentials
+- Verify test card details
+
+### Admin Login Fails
+```bash
+php artisan db:seed
+```
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License
