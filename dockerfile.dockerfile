@@ -14,5 +14,6 @@ ENV WEBROOT=/var/www/html/public
 RUN php artisan config:cache || true
 RUN php artisan route:cache || true
 RUN php artisan view:cache || true
+RUN php artisan migrate --force || true
 
 CMD ["/start.sh"]
