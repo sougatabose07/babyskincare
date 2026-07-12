@@ -35,6 +35,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
+});
+
+// Admin authentication (login)
+Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
+
+// Re-open auth-protected admin routes
+Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
         Route::get('products/data', [App\Http\Controllers\Admin\ProductController::class, 'data'])->name('products.data');
@@ -43,3 +51,4 @@ Route::middleware('auth')->group(function () {
         Route::resource('banners', App\Http\Controllers\Admin\BannerController::class)->only(['index', 'store', 'destroy']);
     });
 });
+
