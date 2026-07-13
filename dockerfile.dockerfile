@@ -61,6 +61,10 @@ RUN chmod -R 775 \
     storage \
     bootstrap/cache
 
+RUN touch storage/logs/laravel.log
+
+RUN chmod -R 777 storage bootstrap/cache
+
 # Point Apache to Laravel public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
