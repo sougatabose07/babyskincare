@@ -75,4 +75,6 @@ RUN php artisan migrate --force || true
 
 EXPOSE 80
 
+RUN usermod -u 1000 www-data
+
 CMD ["apache2-foreground"]
