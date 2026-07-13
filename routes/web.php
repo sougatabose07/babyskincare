@@ -10,12 +10,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test-render', function () {
     return 'Render Route Working';
 });
-Route::get('/', function () {
-    $banners = Banner::where('active', true)->orderBy('sort_order')->get();
-    $featuredProducts = Product::with('category')->where('featured', true)->take(8)->get();
-    $categories = Category::orderBy('name')->get();
+// Route::get('/', function () {
+//     $banners = Banner::where('active', true)->orderBy('sort_order')->get();
+//     $featuredProducts = Product::with('category')->where('featured', true)->take(8)->get();
+//     $categories = Category::orderBy('name')->get();
 
-    return view('welcome', compact('banners', 'featuredProducts', 'categories'));
+//     return view('welcome', compact('banners', 'featuredProducts', 'categories'));
+// });
+Route::get('/', function () {
+    return [
+        'current' => request()->path(),
+        'routes' => collect(Route::getRoutes())->pluck('uri')->values(),
+    ];
 });
 
 // Frontend product and category pages
