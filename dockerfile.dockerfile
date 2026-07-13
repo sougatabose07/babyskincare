@@ -43,14 +43,23 @@ RUN composer install \
     --no-interaction
 
 # Laravel permissions
-RUN mkdir -p storage/framework/cache \
+# Create Laravel directories
+RUN mkdir -p \
+    storage/framework/cache \
     storage/framework/sessions \
     storage/framework/views \
+    storage/logs \
     bootstrap/cache
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Set ownership
+RUN chown -R www-data:www-data \
+    storage \
+    bootstrap/cache
 
-RUN chmod -R 775 storage bootstrap/cache
+# Set permissions
+RUN chmod -R 775 \
+    storage \
+    bootstrap/cache
 
 # Point Apache to Laravel public directory
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
