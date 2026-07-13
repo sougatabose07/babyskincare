@@ -29,7 +29,6 @@
             <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">Featured</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Categories</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('cart.show') }}">Cart</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a></li>
           </ul>
         </div>
       </div>
