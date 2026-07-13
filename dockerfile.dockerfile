@@ -54,12 +54,14 @@ RUN mkdir -p \
 # Set ownership
 RUN chown -R www-data:www-data \
     storage \
-    bootstrap/cache
+    bootstrap/cache \
+    public/images
 
 # Set permissions
 RUN chmod -R 775 \
     storage \
-    bootstrap/cache
+    bootstrap/cache \
+    public/images
 
 RUN touch storage/logs/laravel.log
 
