@@ -11,10 +11,6 @@ RUN mkdir -p storage/framework/{cache,sessions,views} \
 
 ENV WEBROOT=/var/www/html/public
 
-RUN php artisan route:clear || true
-RUN php artisan config:cache || true
-RUN php artisan route:cache || true
-RUN php artisan view:cache || true
-RUN php artisan migrate --force || true
+RUN php artisan optimize:clear || true
 
 CMD ["/start.sh"]
