@@ -7,7 +7,9 @@ use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-
+Route::get('/test-render', function () {
+    return 'Render Route Working';
+});
 Route::get('/', function () {
     $banners = Banner::where('active', true)->orderBy('sort_order')->get();
     $featuredProducts = Product::with('category')->where('featured', true)->take(8)->get();
