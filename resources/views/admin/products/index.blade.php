@@ -42,7 +42,7 @@
                     processing: true,
                     serverSide: false,
                     ajax: {
-                        url: '{{ route('admin.products.data') }}',
+                        url: '/admin/products/data',
                         dataSrc: 'data'
                     },
                     columns: [
